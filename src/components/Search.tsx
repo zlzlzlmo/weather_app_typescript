@@ -23,7 +23,7 @@ const Search: React.FC<SearchProps> = ({ title }) => {
       <div className="hero-body">
         <div className="container">
           <h1 className="title">{title}</h1>
-          <form action="" className="py-5">
+          <form action="" className="py-5" onSubmit={handleSubmit}>
             <input
               type="text"
               className="input has-text-centered mb-2"
@@ -32,13 +32,14 @@ const Search: React.FC<SearchProps> = ({ title }) => {
               value={city}
               onChange={handleChange}
             />
+            <button
+              type="submit"
+              className="button is-primary is-fullWidth"
+              style={{ maxWidth: 300, margin: "0 auto" }}
+            >
+              Search
+            </button>
           </form>
-          <button
-            className="button is-primary is-fullWidth"
-            style={{ maxWidth: 300, margin: "0 auto" }}
-          >
-            Search
-          </button>
         </div>
       </div>
     </div>

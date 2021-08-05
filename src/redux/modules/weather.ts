@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
-import { RootState } from "../configStore";
+import { RootState, useAppSelect } from "../configStore";
 import axios from "axios";
 export interface Weather {
   description: string;
@@ -52,13 +52,11 @@ export interface WeatherError {
 export interface WeatherState {
   data: WeatherData | null;
   loading: boolean;
-  error: string;
 }
 
 const initialState: WeatherState = {
   data: null,
   loading: false,
-  error: "error",
 };
 
 export const getWeatherThunk = createAsyncThunk(
@@ -76,12 +74,18 @@ const weatherSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder.addCase(getWeatherThunk.pending, (state, action) => {
+      state.loading = true;
+    });
     builder.addCase(getWeatherThunk.fulfilled, (state, action) => {
-      return { ...state, ...action.payload };
+      state.data = action.payload;
+      state.loading = false;
+    });
+    builder.addCase(getWeatherThunk.rejected, (state, action) => {
+      alert("잘못된 도시를 입력하였습니다. 다시 확인해주세요");
     });
   },
 });
 
-export const getWeather = (state: RootState) => state.weather.data;
-
+export const getWeather = (state: RootState) => state.weather;
 export default weatherSlice.reducer;
