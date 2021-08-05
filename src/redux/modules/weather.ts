@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
-import { RootState, useAppSelect } from "../configStore";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { RootState } from "../configStore";
 import axios from "axios";
 export interface Weather {
   description: string;
@@ -42,11 +42,6 @@ export interface WeatherData {
     speed: number;
     deg: number;
   };
-}
-
-export interface WeatherError {
-  cod: string;
-  message: string;
 }
 
 export interface WeatherState {
