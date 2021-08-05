@@ -52,11 +52,13 @@ export interface WeatherError {
 export interface WeatherState {
   data: WeatherData | null;
   loading: boolean;
+  error: boolean;
 }
 
 const initialState: WeatherState = {
   data: null,
   loading: false,
+  error: false,
 };
 
 export const getWeatherThunk = createAsyncThunk(
@@ -76,13 +78,15 @@ const weatherSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getWeatherThunk.pending, (state, action) => {
       state.loading = true;
+      state.error = false;
     });
     builder.addCase(getWeatherThunk.fulfilled, (state, action) => {
       state.data = action.payload;
       state.loading = false;
     });
     builder.addCase(getWeatherThunk.rejected, (state, action) => {
-      alert("잘못된 도시를 입력하였습니다. 다시 확인해주세요");
+      state.error = true;
+      state.loading = false;
     });
   },
 });
